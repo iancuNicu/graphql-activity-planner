@@ -1,7 +1,7 @@
 const axios = require('axios');
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-const url = 'https://api.foursquare.com/v2/venues/search/?';
+const url = 'https://api.foursquare.com/v2/venues/explore/?';
 const detailsUrl = 'https://api.foursquare.com/v2/venues/';
 
 const ForsquareController = {
@@ -9,6 +9,7 @@ const ForsquareController = {
     getVenueList: function(city='New York', section='coffee'){
         const callParams = [
             `near=${city}`,
+            `venuePhotos=1`,
             `client_id= ${client_id}`,
             `client_secret=${client_secret}`,
             `section=${section}`,
@@ -16,7 +17,7 @@ const ForsquareController = {
             `v=${this.getCurrentDate()}`
         ].join('&');
         return axios.get(url+callParams).then(res => {
-            return res.data.response.venues;
+            return res.data.response.groups[0].items.map(item =>item)
         }).catch(e => {
             return e;
         });

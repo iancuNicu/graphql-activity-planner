@@ -7,6 +7,28 @@ const venueSchema = buildSchema(`
         crossStreet: String
         city: String
         state: String
+        formattedAddress: [String]
+    }
+
+    type VenueContact {
+        phone: String
+        formattedPhone: String
+        facebook: String
+        facebookUsername: String
+        facebookName: String
+    }
+
+    type VenueHours {
+        status: String
+        isOpen: Boolean
+    }
+
+    type BestPhoto {
+        id: String
+        prefix: String
+        suffix: String
+        width: Int
+        height: Int
     }
     
     type Venue {
@@ -14,12 +36,17 @@ const venueSchema = buildSchema(`
         name:String
         contact:String
         location: Location
-        categories: [String]
+        contact: VenueContact
+        url: String
+        rating: Float
+        ratingColor: String
+        hours: VenueHours,
+        bestPhoto: BestPhoto
     }
 
     type Query {
-        getVenues: [Venue]
-        getVenue(id: ID!): Venue
+        getVenues(city:String, section:String): [Venue]
+        getVenue(id: String!): Venue
     }
 
     type Mutation {

@@ -1,0 +1,11 @@
+.venue-list-wrapper {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+}
+
+.venue-list-wrapper a {
+    color: #1e1f21;
+}

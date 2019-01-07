@@ -2,8 +2,8 @@ const fsquareCtrl = require('../../controllers/foursquare-controller');
 const UserModel = require('../../db/models/UserModel');
 
 const venueResolver = {
-    getVenues: async () => {
-        const venueList = await fsquareCtrl.getVenueList();
+    getVenues: async ({city, section}) => {
+        const venueList = await fsquareCtrl.getVenueList(city, section);
         return venueList;
     },
     getVenue : async ({id}) => {
@@ -11,7 +11,6 @@ const venueResolver = {
         return venueDetails;
     },
     bookVenue: async function({venueId}, {req}){
-        console.log('This ',this);
         const venue = await this.getVenue(venueId);
         const token = req.headers['Authorization'].split(' ')[1];
         const verifyToken = UserModel.verifyToken(token);
