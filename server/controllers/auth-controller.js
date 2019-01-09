@@ -10,6 +10,7 @@ const AuthController = {
         else {
             return {
                 user:{...newUser._doc},
+                refreshToken: newUser._doc.refreshToken,
                 token
             }
         }

@@ -17,10 +17,25 @@ const ForsquareController = {
             `v=${this.getCurrentDate()}`
         ].join('&');
         return axios.get(url+callParams).then(res => {
-            return res.data.response.groups[0].items.map(item =>item)
-        }).catch(e => {
-            return e;
-        });
+            return res.data.response.groups[0].items.map(item =>item.venue)
+        }).catch(e => ({
+            error:e
+        }));
+    },
+
+    getPhotos: (id) => {
+        const callParams = [
+            `client_id= ${client_id}`,
+            `client_secret=${client_secret}`,
+            `limit=10`
+        ].join('&');
+        const callUrl = `${detailsUrl}${id}/photos/?${callParams}`;
+        return axios.get(callUrl).then(res => {
+            console.log('fsq ctrl photos ', res.data.response.photos.items);
+            return res.data.response.photos.items; 
+        }).catch(e => ({
+            error:e
+        }));
     },
 
     getVenueDetails: function(id){

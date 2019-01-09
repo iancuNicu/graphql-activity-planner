@@ -10,6 +10,10 @@ const venueResolver = {
         const venueDetails = await fsquareCtrl.getVenueDetails(id);
         return venueDetails;
     },
+    getVenuePhotos: async ({id}) => {
+        const venuePhotos = await fsquareCtrl.getPhotos(id);
+        return venuePhotos;
+    },
     bookVenue: async function({venueId}, {req}){
         const venue = await this.getVenue(venueId);
         const token = req.headers['Authorization'].split(' ')[1];

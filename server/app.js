@@ -13,7 +13,10 @@ const authMiddl = require('./middleware/auth-middleware');
 var app = express();
 
 app.use(logger('dev'));
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3000',
+               allowedHeaders: ['Content-Type','Authorization', 'x-auth'],
+               exposedHeaders: ['x-auth', 'x-auth-refresh'],
+               credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

@@ -5,7 +5,6 @@ const authSchema = buildSchema(`
     type User {
         _id:String!
         email:String!
-        refreshToken:String!
         name:String
     }
 
@@ -14,12 +13,13 @@ const authSchema = buildSchema(`
         password:String!
         name:String
     }
-
+    
     type Query {
-        login(user:UserInput): User
+        getUser: String
     }
 
     type Mutation {
+        login(user:UserInput): User
         signup(user:UserInput): User
     }
 

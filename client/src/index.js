@@ -10,10 +10,38 @@ import {BrowserRouter} from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 
 import { ApolloProvider } from "react-apollo";
-import ApolloClient from "apollo-boost";
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloLink } from 'apollo-link';
+import { setContext } from "apollo-link-context";
+
+const link = new HttpLink({
+  uri:'http://localhost:5000/graphql',
+  credentials: 'same-origin'
+});
+
+const cache = new InMemoryCache();
+
+const authHeader = new ApolloLink((operation, forward) => {
+  return forward(operation).map(res => {
+    const {response} = operation.getContext();
+    const headers = {
+      'x-auth': response.headers.get('x-auth'),
+      'x-auth-refresh': response.headers.get('x-auth-refresh')
+    }
+    res.headers = {
+      ...res.headers,
+      ...headers
+    }
+    return res;
+  })
+});
+
 
 const client = new ApolloClient({
-  uri:'http://localhost:5000/graphql'
+  link: ApolloLink.from([authHeader, link]),
+  cache
 });
 
 ReactDOM.render(<ApolloProvider client={client}>

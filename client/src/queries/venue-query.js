@@ -9,10 +9,6 @@ export const GET_VENUES = gql`
               address
               city
             }
-            icon {
-                prefix
-                suffix
-            }
           }
     }
 `;
@@ -26,6 +22,25 @@ export const GET_VENUE = gql`
                address
                city
             }
+            url
+            rating
+            ratingColor
+            hours {
+                status
+                isOpen
+            }
+        }
+    }
+`
+
+export const GET_VENUE_PHOTOS = gql`
+    query($id: String!) {
+        getVenuePhotos(id: $id){
+            createdAt: Int
+            prefix: String
+            suffix: String
+            width: Int
+            height: Int
         }
     }
 `

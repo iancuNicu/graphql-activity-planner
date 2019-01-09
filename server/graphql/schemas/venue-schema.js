@@ -23,8 +23,9 @@ const venueSchema = buildSchema(`
         isOpen: Boolean
     }
 
-    type BestPhoto {
+    type VenuePhoto {
         id: String
+        createdAt: Int
         prefix: String
         suffix: String
         width: Int
@@ -34,19 +35,19 @@ const venueSchema = buildSchema(`
     type Venue {
         id:ID!
         name:String
-        contact:String
         location: Location
         contact: VenueContact
         url: String
         rating: Float
         ratingColor: String
         hours: VenueHours,
-        bestPhoto: BestPhoto
+        bestPhoto: VenuePhoto
     }
 
     type Query {
         getVenues(city:String, section:String): [Venue]
         getVenue(id: String!): Venue
+        getVenuePhotos(id: String!): [VenuePhoto]
     }
 
     type Mutation {
