@@ -16,7 +16,7 @@ const venueResolver = {
     },
     bookVenue: async function({venueId}, {req}){
         const venue = await this.getVenue(venueId);
-        const token = req.headers['Authorization'].split(' ')[1];
+        const token = req.headers['authorization'].split(' ')[1];
         const verifyToken = UserModel.verifyToken(token);
         if(verifyToken.error){
             return verifyToken.error;

@@ -8,13 +8,21 @@ import * as serviceWorker from './serviceWorker';
 
 import {BrowserRouter} from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
+import Cookie from './cookies-config';
+
+import {resolvers} from './local-graphql/resolvers/local-state-resolver';
+import {lStateTypeDefs} from './local-graphql/type-defs/l-state.type-def';
 
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { withClientState } from 'apollo-link-state';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink } from 'apollo-link';
-import { setContext } from "apollo-link-context";
+
+const defaults = {
+  user: null
+}
 
 const link = new HttpLink({
   uri:'http://localhost:5000/graphql',
@@ -23,7 +31,14 @@ const link = new HttpLink({
 
 const cache = new InMemoryCache();
 
-const authHeader = new ApolloLink((operation, forward) => {
+const stateLink = withClientState({
+  cache,
+  defaults,
+  resolvers,
+  typeDefs: lStateTypeDefs
+});
+
+const getAuthHeader = new ApolloLink((operation, forward) => {
   return forward(operation).map(res => {
     const {response} = operation.getContext();
     const headers = {
@@ -40,12 +55,12 @@ const authHeader = new ApolloLink((operation, forward) => {
 
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authHeader, link]),
+  link: ApolloLink.from([stateLink, getAuthHeader, link]),
   cache
 });
 
 ReactDOM.render(<ApolloProvider client={client}>
-                  <CookiesProvider>
+                  <CookiesProvider cookies={Cookie}>
                     <BrowserRouter>
                       <App />
                     </BrowserRouter> 

@@ -35,9 +35,9 @@ class AuthContainer extends Component {
         }));
     }
 
-    onSubmit = (e, signup) => {
+    onSubmit = (e, auth) => {
         e.preventDefault();
-        signup({variables: {
+        auth({variables: {
             user: {
                 email: this.state.email,
                 password: this.state.password
@@ -47,7 +47,7 @@ class AuthContainer extends Component {
             this.props.cookies.set('x-auth', res.headers['x-auth']);
             this.props.cookies.set('x-auth-refresh', res.headers['x-auth-refresh']);
             this.toggleModal();
-            this.props.history.push('/user-logged');
+            this.props.history.push('/user-page');
         }).catch(e => {
             console.log('error ', e);
             return e;
@@ -69,12 +69,12 @@ class AuthContainer extends Component {
         return(
             <React.Fragment>
                 <AuthButtons toggle={this.toggleModal} />
-                <Mutation mutation={SIGNUP} variables={{
+                <Mutation mutation={pickedMutation} variables={{
                         email,
                         password
                 }}>
                     {
-                        (signup,{data, loading, error}) => {
+                        (auth,{data, loading, error}) => {
                             return(
                                 <Modal isOpen={this.state.modal && this.state.type!==''}>
                                 {type!=='' ?
@@ -85,7 +85,7 @@ class AuthContainer extends Component {
                                 </ModalBody>  
                                 <ModalFooter>
                                     <Button onClick={(e) => {
-                                        this.onSubmit(e, signup)
+                                        this.onSubmit(e, auth)
                                     }} outline color="success">
                                             Submit
                                     </Button>         

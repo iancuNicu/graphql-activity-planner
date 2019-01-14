@@ -23,6 +23,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         minlength:6
     },
+    name: {
+        type:String,
+        minlength: 4,
+        required:false
+    },
     bookedList: {
         type:Array,
         minlength: 0,
@@ -40,11 +45,12 @@ UserSchema.methods.genJwtToken = function(){
     return jwt.sign({_id: user._id.toHexString()}, jwtSalt, { expiresIn: 300 });
 }
 
-UserSchema.static.verifyJwt = function(token){
+UserSchema.statics.verifyJwt = function(token,  isJwt){
     try {
-        const decodeToken = jwt.verify(token, jwtSalt);
+        const decodeToken = jwt.verify(token, (isJwt ? jwtSalt: refSalt));
         return {
-            _id: decodeToken._id
+            _id: decodeToken._id,
+            exp: decodeToken.exp
         }
     }
     catch(e){

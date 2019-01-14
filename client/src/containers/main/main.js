@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Navbar from '../../presentational/navbar/navbar';
 import {Switch, withRouter} from 'react-router-dom';
+import withAuth from '../../hoc/withAuth';
 
 import routes from '../../routes/routes';
 
@@ -12,7 +13,7 @@ class Main extends Component {
             this.props.history.push('/venue-list');    
         }
         else if(location.pathname === '/' && user){
-            this.props.history.push('/user-main');
+            this.props.history.push('/user-page');
         }
     }
 
@@ -20,10 +21,11 @@ class Main extends Component {
         this.switchInitRoute();
     }
 
+
     render(){
         return(
             <React.Fragment>
-                <Navbar />
+                <Navbar user={this.props.AuthQuery.verifyAuth} />
                 <Switch>
                     {routes}
                 </Switch>
@@ -33,4 +35,4 @@ class Main extends Component {
 
 }
 
-export default withRouter(Main);
+export default withAuth(withRouter(Main));

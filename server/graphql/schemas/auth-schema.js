@@ -15,7 +15,7 @@ const authSchema = buildSchema(`
     }
     
     type Query {
-        getUser: String
+        verifyAuth(refreshToken: String!): User
     }
 
     type Mutation {

@@ -4,8 +4,15 @@ import {Route} from 'react-router-dom';
 
 import VenueList from '../presentational/venue-list/venue-list';
 import VenuePage from '../presentational/venue-page/venue-page'
+import UserPage from '../containers/user/user-page';
 
 const routes = [
+    {
+        path: '/user-page',
+        component: UserPage,
+        exact: true,
+        key: 'user-page'
+    },
     {
         path: '/venue/:id',
         component: VenuePage,

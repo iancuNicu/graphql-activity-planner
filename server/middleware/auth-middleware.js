@@ -1,8 +1,8 @@
 const UserModel = require('../db/models/UserModel');
 global.Headers = require('node-fetch').Headers;
 
-const isTokenEpired = (token) => {
-    const verify = UserModel.verifyJwt(token);
+const isTokenEpired = (token, isJwt) => {
+    const verify = UserModel.verifyJwt(token, isJwt);
     if(verify.error){
         return {
             isExpired:true
@@ -12,6 +12,7 @@ const isTokenEpired = (token) => {
         const dateNow =  Date.now().valueOf() / 1000;
         if(typeof verify.exp !== 'undefined' && verify.exp < dateNow){
             return {
+                _id: verify._id,
                 isExpired:true
             }
         }
@@ -25,28 +26,30 @@ const isTokenEpired = (token) => {
 }
 
 module.exports = async (req, res, next) => {
-    const token = req.headers['Authorization'];
-    const refToken = req.body.refreshToken;
+    const token = req.headers['authorization'];
+    const refToken = req.body.variables.refreshToken;
     if(!res.headers){
         res.headers = new Headers();
     }
     if(token && refToken){
-        const tokenVerify = isTokenEpired(token);
+        const tokenVerify = isTokenEpired(token, true);
         if(tokenVerify.isExpired){
-            const refVerify = isTokenEpired(refToken);
+            const refVerify = isTokenEpired(refToken, false);
+            const user = await UserModel.findOne({_id:refVerify._id});
+            if(!user){
+                throw new Error('Unauthorized! No user found!');
+            }
+            if(user.refreshToken !== refToken){
+                throw new Error('Invalid auth tokens!');
+            }
             if(refVerify.isExpired){
-                throw new Error('Bad Auth!');  
+                    throw new Error('Bad auth!');
             }
             else {
-                const user = await UserModel.find({_id:refVerify._id});
-                if(!user){
-                    throw new Error('Unauthorized! No user found!');
-                }
-                else {
-                    const token = user.genJwtToken();
-                    req.headers['Authorization'] = `Bearer ${token}`;
-                    next();
-                }
+               const token = user.genJwtToken();
+               req.headers['authorization'] = `${token}`;
+               res.set('authorization' ,`${token}`);
+               next();
             }
         }
         else 
