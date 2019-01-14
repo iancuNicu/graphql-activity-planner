@@ -19,13 +19,15 @@ class Main extends Component {
 
     componentDidMount(){
         this.switchInitRoute();
+        const {StoreMutation, authData} = this.props;
+        StoreMutation(authData);
     }
 
 
     render(){
         return(
             <React.Fragment>
-                <Navbar user={this.props.AuthQuery.verifyAuth} />
+                <Navbar user={this.props.authData} />
                 <Switch>
                     {routes}
                 </Switch>
