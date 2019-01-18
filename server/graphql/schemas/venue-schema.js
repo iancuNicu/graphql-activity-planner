@@ -25,11 +25,11 @@ const venueSchema = buildSchema(`
 
     type VenuePhoto {
         id: String
-        createdAt: Int
+        createdAt: String
         prefix: String
         suffix: String
-        width: Int
-        height: Int
+        width: String
+        height: String
     }
     
     type Venue {
@@ -40,7 +40,7 @@ const venueSchema = buildSchema(`
         url: String
         rating: Float
         ratingColor: String
-        hours: VenueHours,
+        hours: VenueHours
         bestPhoto: VenuePhoto
     }
 

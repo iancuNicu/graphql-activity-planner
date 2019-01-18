@@ -22,6 +22,12 @@ export const GET_VENUE = gql`
                address
                city
             }
+            bestPhoto {
+                suffix
+                prefix
+                width
+                height
+            }
             url
             rating
             ratingColor
@@ -31,16 +37,15 @@ export const GET_VENUE = gql`
             }
         }
     }
-`
+`;
 
 export const GET_VENUE_PHOTOS = gql`
     query($id: String!) {
         getVenuePhotos(id: $id){
-            createdAt: Int
-            prefix: String
-            suffix: String
-            width: Int
-            height: Int
+            prefix
+            suffix
+            width
+            height
         }
     }
-`
+`;

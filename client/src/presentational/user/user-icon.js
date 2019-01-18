@@ -1,13 +1,13 @@
 import React from 'react';
 import {TiUserOutline} from 'react-icons/ti';
+import UserDropdown from './user-dropdown';
 import './user.css';
 
-const UserIcon = ({user}) => {
-    console.log('User icon ', user);
+const UserIcon = ({user, history}) => {
     return(
         <div className="container-fluid user-icon">
             <TiUserOutline size="24" />
-            <p className="user-icon-name">{user.name ? user.name : 'User'}</p>
+            <UserDropdown name={user.name} history={history} />
         </div>
     )
 }

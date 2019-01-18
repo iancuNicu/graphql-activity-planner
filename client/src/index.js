@@ -6,7 +6,8 @@ import 'bootstrap/dist/js/bootstrap.js';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import {BrowserRouter} from 'react-router-dom';
+import {Router} from 'react-router-dom';
+import history from './history-config';
 import { CookiesProvider } from 'react-cookie';
 import Cookie from './cookies-config';
 
@@ -61,9 +62,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(<ApolloProvider client={client}>
                   <CookiesProvider cookies={Cookie}>
-                    <BrowserRouter>
+                    <Router history={history}>
                       <App />
-                    </BrowserRouter> 
+                    </Router> 
                   </CookiesProvider> 
                 </ApolloProvider>, 
                 document.getElementById('root'));

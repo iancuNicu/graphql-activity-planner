@@ -26,8 +26,8 @@ const isTokenEpired = (token, isJwt) => {
 }
 
 module.exports = async (req, res, next) => {
-    const token = req.headers['authorization'];
-    const refToken = req.body.variables.refreshToken;
+    const token = req.headers ? req.headers['authorization'] : null;
+    const refToken = req.body.variables ? req.body.variables.refreshToken : null;
     if(!res.headers){
         res.headers = new Headers();
     }
@@ -55,6 +55,7 @@ module.exports = async (req, res, next) => {
         else 
             next();
     }
-    else
+    else {
         next();
+    }
 }

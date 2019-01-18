@@ -1,9 +1,10 @@
+import {gql} from 'apollo-boost';
 
-export const L_USER_QUERY = `
+export const L_USER_QUERY = gql`
     query {
-        getUser @client {
+        user @client {
             email
-            id
+            _id
             name
         }
     }

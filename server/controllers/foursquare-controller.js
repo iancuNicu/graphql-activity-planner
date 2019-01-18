@@ -23,15 +23,15 @@ const ForsquareController = {
         }));
     },
 
-    getPhotos: (id) => {
+    getPhotos: function(id){
         const callParams = [
             `client_id= ${client_id}`,
             `client_secret=${client_secret}`,
-            `limit=10`
+            `limit=10`,
+            `v=${this.getCurrentDate()}`
         ].join('&');
         const callUrl = `${detailsUrl}${id}/photos/?${callParams}`;
         return axios.get(callUrl).then(res => {
-            console.log('fsq ctrl photos ', res.data.response.photos.items);
             return res.data.response.photos.items; 
         }).catch(e => ({
             error:e
@@ -47,6 +47,7 @@ const ForsquareController = {
           return axios.get(detailsUrl + id + '?' + params).then(res => {
               return res.data.response.venue;
           }).catch(e => {
+              console.log(e);
               return e;
           });
     },

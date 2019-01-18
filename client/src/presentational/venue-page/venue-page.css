@@ -1,0 +1,14 @@
+.venue-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.venue-information-container {
+    display: flex;
+    flex-direction: row;
+    height: 8em;
+    padding: 10px;
+    justify-content: space-between;
+}

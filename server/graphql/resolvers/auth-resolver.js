@@ -37,7 +37,7 @@ module.exports = {
                 else { 
                     const authData = await authCtrl.genAuthOutput(foundUser);
                     res.set('x-auth', `${authData.token}`);
-                    res.set('x-auth-refresh', `${authData.refreshToken}`)
+                    res.set('x-auth-refresh', `${authData.refreshToken}`);
                     return authData.user;
                 }
             }

@@ -25,15 +25,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(authMiddl); 
 
 app.use('/graphql',
-        express_graphql((req, res) => ({
-          schema: rootSchema,
-          rootValue: rootResolver,
-          context: {
-            req,
-            res
-          },
-          graphiql:true
-        })),
+        express_graphql((req, res) => {
+          return  ({
+            schema: rootSchema,
+            rootValue: rootResolver,
+            context: {
+              req,
+              res
+            },
+            graphiql:true
+          })
+        })
  );
 
 // catch 404 and forward to error handler

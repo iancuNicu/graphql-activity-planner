@@ -1,8 +1,7 @@
 import React from 'react';
 import {graphql, Query} from 'react-apollo';
 import {VERIFY_AUTH} from '../queries/auth-query';
-import {L_STATE_MUTATION} from '../local-graphql/type-defs/local-state-mutation';
-import {compose} from 'recompose';
+import {ADD_USER} from '../local-graphql/type-defs/local-state-mutation';
 import Cookie from '../cookies-config';
 
 const withAuth = (Component) => (props) => {
@@ -29,7 +28,7 @@ const withAuth = (Component) => (props) => {
                             );
                         }
                         else {
-                            ComponentWithAuth =  graphql(L_STATE_MUTATION, {
+                            ComponentWithAuth =  graphql(ADD_USER, {
                                 name: 'StoreMutation',
                                 options: {
                                     variables: {
